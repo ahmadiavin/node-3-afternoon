@@ -38,10 +38,10 @@ module.exports = {
   },
   update: (req, res, next) => {
     const dbInstance = req.app.get("db");
-    const {id} = req.params;
+    const {params, query} = req;
 
     dbInstance
-      .update_product(id)
+      .update_product(params.id, query.desc)
       .then(products => res.status(200).send(products))
       .catch(error => {
         res.status(500).send({ errorMessage: "something went wrong, man" });
@@ -50,9 +50,10 @@ module.exports = {
   },
   delete: (req, res, next) => {
     const dbInstance = req.app.get("db");
+    const {id} = req.params;
 
     dbInstance
-      .delete_product()
+      .delete_product(id)
       .then(products => res.status(200).send(products))
       .catch(error => {
         res.status(500).send({ errorMessage: "something went wrong, man" });
